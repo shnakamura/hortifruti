@@ -1,8 +1,9 @@
+#include "main.h"
+
 #include <stdio.h>
 #include <locale.h>
 #include <windows.h>
 
-#include "main.h"
 #include "login.h"
 #include "menu.h"
 #include "splash.h"

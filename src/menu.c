@@ -1,12 +1,13 @@
 #include "menu.h"
-#include "main.h"
-#include "database.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>
 #include <time.h>
 #include <windows.h>
+
+#include "main.h"
+#include "database.h"
 
 #define MAX_PROD_NAME_LENGTH 50
 #define MAX_FILENAME_LENGTH 100

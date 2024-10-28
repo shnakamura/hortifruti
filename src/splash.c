@@ -1,9 +1,9 @@
+#include "splash.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <windows.h>
-
-#include "splash.h"
 
 void SPL_ShowSplashScreen() {
     printf("██╗  ██╗ ██████╗ ██████╗ ████████╗██╗███████╗██████╗ ██╗   ██╗████████╗██╗ \n");
