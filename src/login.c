@@ -5,7 +5,7 @@
 #include <conio.h>
 #include <string.h>
 
-int LGN_AuthenticateUser(char* username, char* password) {
+int LOGIN_AuthenticateUser(char* username, char* password) {
     if (strcmp(username, "admin") == 0 && strcmp(password, "admin") == 0) {
         return 1;
     }
@@ -14,8 +14,8 @@ int LGN_AuthenticateUser(char* username, char* password) {
 }
 
 void LOGIN_ShowPanel() {
-    char username[MAX_USERNAME_LENGTH];
-    char password[MAX_PASSWORD_LENGTH];
+    char username[USERNAME_MAX_LENGTH];
+    char password[PASSWORD_MAX_LENGTH];
 
     int attempts = 0; 
 
@@ -26,7 +26,7 @@ void LOGIN_ShowPanel() {
     printf("███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║\n");
     printf("╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝\n");
 
-    while (attempts < MAX_PASSWORD_ATTEMPTS) {
+    while (attempts < PASSWORD_MAX_ATTEMPTS) {
         printf("Nome de usuário: "); 
         fgets(username, sizeof(username), stdin);
 
@@ -49,14 +49,14 @@ void LOGIN_ShowPanel() {
                     i--;
                     printf("\b \b");
                 }
-            } else if (i < MAX_PASSWORD_LENGTH - 1) {
+            } else if (i < PASSWORD_MAX_LENGTH - 1) {
                 password[i] = ch; 
                 printf("*"); 
                 i++;
             }
         }
         
-        if (LGN_AuthenticateUser(username, password)) {
+        if (LOGIN_AuthenticateUser(username, password)) {
             printf("Login realizado com sucesso!\n\n");
             system("cls"); 
             return;

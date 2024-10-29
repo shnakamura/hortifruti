@@ -5,7 +5,7 @@
  * @def MAX_NAME_LENGTH
  * @brief A quantidade máxima de caractéres que o nome de um produto pode ter.
  */
-#define MAX_NAME_LENGTH 50
+#define PRODUCT_MAX_NAME_LENGTH 50
 
 /**
  * @struct Product
@@ -22,7 +22,7 @@ typedef struct Product {
      * Este campo é utilizado para a exibição do nome do produto no estoque. O valor deve conter no máximo
      * MAX_NAME_LENGTH caracteres.
      */
-    char name[MAX_NAME_LENGTH];
+    char name[PRODUCT_MAX_NAME_LENGTH];
 
     /**
      * @var id

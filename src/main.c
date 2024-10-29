@@ -7,6 +7,7 @@
 #include "login.h"
 #include "menu.h"
 #include "splash.h"
+#include "database.h"
 
 int main(void) {
     SetConsoleOutputCP(CP_UTF8);
@@ -20,7 +21,8 @@ int main(void) {
 void MAIN_Initialize() {
     SPLASH_ShowSplashScreen();
     LOGIN_ShowPanel();
-    MNU_ShowMenu();
+    MENU_ShowMenu();
+    DATABASE_CreateFile();
 }
 
 void MAIN_Exit() {

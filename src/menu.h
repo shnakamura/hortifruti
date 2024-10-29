@@ -7,7 +7,7 @@
  * Mostra as opções disponíveis ao usuário, como adicionar um produto, vender um produto, exibir o estoque
  * de produtos, deletar um produto do e visualizar o saldo acumulado no sistema de gerenciamento.
  */
-void MNU_ShowMenu();
+void MENU_ShowMenu();
 
 /**
  * @brief Adiciona um novo produto ao estoque.
@@ -15,7 +15,7 @@ void MNU_ShowMenu();
  * Solicita ao usuário as informações necessárias para adicionar um novo produto ao estoque, sendo seu nome,
  * quantidade e preço, e o armazena no estoque.
  */
-void MNU_AddProduct(); 
+void MENU_AddProduct(); 
 
 /**
  * @brief Realiza a venda de um produto do estoque.
@@ -23,7 +23,7 @@ void MNU_AddProduct();
  * Solicita ao usuário as informações necessárias para vender um produto do estoque, sendo seu nome e
  * quantidade. A quantidade do produto é decrementada conforme a venda é realizada.
  */
-void MNU_SellProduct(); 
+void MENU_SellProduct(); 
 
 /**
  * @brief Exibe a lista de produtos no estoque.
@@ -31,7 +31,7 @@ void MNU_SellProduct();
  * Mostra todos os produtos atualmente disponíveis no estoque, incluindo informações como o nome, quantidade
  * e preço de cada item.
  */
-void MNU_ShowStock(); 
+void MENU_ShowStock(); 
 
 /**
  * @brief Remove um produto do estoque.
@@ -39,13 +39,13 @@ void MNU_ShowStock();
  * Solicita ao usuário as informações necessárias para remover um produto do estoque, sendo seu identificador
  * numérico.
  */
-void MNU_DeleteProduct();
+void MENU_DeleteProduct();
 
 /**
  * @brief Exibe o saldo acumulado no sistema de gerenciamento.
  * 
  * Mostra o valor total obtido com as vendas realizadas.
  */
-void MNU_ShowBalance(); 
+void MENU_ShowBalance(); 
 
 #endif

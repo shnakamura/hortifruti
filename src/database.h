@@ -1,6 +1,10 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+#define DATABASE_FILE_PATH "produtos.bin"
+
+#include "product.h"
+
 /**
  * @brief Cria o arquivo de banco de dados para armazenar informações de produtos do sistema de gerenciamento.
  *
@@ -9,5 +13,7 @@
  * em reais.
  */
 void DATABASE_CreateFile();
+
+void DATABASE_WriteProduct(char name[PRODUCT_MAX_NAME_LENGTH], int id, int amount, float price);
 
 #endif

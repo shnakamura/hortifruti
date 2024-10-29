@@ -7,12 +7,13 @@
 #include <windows.h>
 
 #include "main.h"
+#include "product.h"
 #include "database.h"
 
 #define MAX_PROD_NAME_LENGTH 50
 #define MAX_FILENAME_LENGTH 100
 
-void MNU_ShowMenu() {
+void MENU_ShowMenu() {
     int choice;
 
     do { 
@@ -44,27 +45,27 @@ void MNU_ShowMenu() {
 
         switch (choice) {
             case 1:
-                MNU_AddProduct(); 
+                MENU_AddProduct(); 
                 break;
             case 2:
-                MNU_SellProduct();
+                MENU_SellProduct();
                 break;
             case 3:
-                MNU_ShowStock();
+                MENU_ShowStock();
                 getch();
                 break;
             case 4:
-                MNU_ShowBalance();
+                MENU_ShowBalance();
                 getch();
                 break;
             case 5:
-                MNU_DeleteProduct();
+                MENU_DeleteProduct();
                 break;
             case 6:
                 MAIN_Exit();
                 break;
             default:
-                printf("Tente novamente, opção escolhida é invalida.\n"); 
+                printf("Tente novamente, a opção escolhida é invalida.\n"); 
                 break;
         }
 
@@ -73,36 +74,30 @@ void MNU_ShowMenu() {
     } while (choice != 6);
 }
 
-void MNU_AddProduct() {
-    char prod_name[MAX_PROD_NAME_LENGTH];
-    float preco; 
-    int quantidade;
-
+void MENU_AddProduct() {
     printf(" █████╗ ██████╗ ██╗ ██████╗██╗ ██████╗ ███╗   ██╗ █████╗ ██████╗     ██████╗ ██████╗  ██████╗ ██████╗ ██╗   ██╗████████╗ ██████╗ \n");
     printf("██╔══██╗██╔══██╗██║██╔════╝██║██╔═══██╗████╗  ██║██╔══██╗██╔══██╗    ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗\n");
     printf("███████║██║  ██║██║██║     ██║██║   ██║██╔██╗ ██║███████║██████╔╝    ██████╔╝██████╔╝██║   ██║██║  ██║██║   ██║   ██║   ██║   ██║\n");
     printf("██╔══██║██║  ██║██║██║     ██║██║   ██║██║╚██╗██║██╔══██║██╔══██╗    ██╔═══╝ ██╔══██╗██║   ██║██║  ██║██║   ██║   ██║   ██║   ██║\n");
     printf("██║  ██║██████╔╝██║╚██████╗██║╚██████╔╝██║ ╚████║██║  ██║██║  ██║    ██║     ██║  ██║╚██████╔╝██████╔╝╚██████╔╝   ██║   ╚██████╔╝\n");
     printf("╚═╝  ╚═╝╚═════╝ ╚═╝ ╚═════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝    ╚═╝    ╚═════╝ \n");
+   
+    char nome[MAX_PROD_NAME_LENGTH];
+
     printf("Digite o nome do produto: ");
-    scanf("%s", prod_name); 
-    printf("Digite o preço do produto: "); 
-    scanf("%f", &preco); 
+    scanf("%s", nome);
+
+    int quantidade;
+
     printf("Digite a quantidade do produto: ");
     scanf("%d", &quantidade); 
 
-    FILE* file = fopen("database.txt", "r");
+    float preco; 
 
-    if (file == NULL) {
-        DATABASE_CreateFile(); 
+    printf("Digite o preço do produto: "); 
+    scanf("%f", &preco); 
 
-        file = fopen("database.txt", "r");
-
-        if (file == NULL) {
-            printf("Erro ao abrir o arquivo.\n");
-            return;
-        }
-    }
+    FILE* file = fopen(DATABASE_FILE_PATH, "r");
 
     int id = 0; 
     char line[100]; 
@@ -113,20 +108,19 @@ void MNU_AddProduct() {
 
     fclose(file);
 
-    file = fopen("database.txt", "a");
+    file = fopen(DATABASE_FILE_PATH, "a");
 
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
 
-    fprintf(file, "%d,%s,%.2f,%d\n", id + 1, prod_name, preco, quantidade);
-    fclose(file); 
+    DATABASE_WriteProduct(nome, id, quantidade, preco);
 
     printf("Produto adicionado com sucesso!\n");
 }
 
-void MNU_SellProduct() {
+void MENU_SellProduct() {
     printf("██╗   ██╗███████╗███╗   ██╗██████╗ ███████╗██████╗     ██████╗ ██████╗  ██████╗ ██████╗ ██╗   ██╗████████╗ ██████╗ \n");
     printf("██║   ██║██╔════╝████╗  ██║██╔══██╗██╔════╝██╔══██╗    ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗\n");
     printf("██║   ██║█████╗  ██╔██╗ ██║██║  ██║█████╗  ██████╔╝    ██████╔╝██████╔╝██║   ██║██║  ██║██║   ██║   ██║   ██║   ██║\n");
@@ -146,7 +140,7 @@ void MNU_SellProduct() {
 
     scanf("%d", &quantidade);
 
-    FILE* file = fopen("database.txt", "r");
+    FILE* file = fopen(DATABASE_FILE_PATH, "r");
 
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
@@ -206,15 +200,15 @@ void MNU_SellProduct() {
     fclose(tempFile);
 
     if (found) {
-        remove("database.txt");
-        rename("temp.txt", "database.txt");
+        remove(DATABASE_FILE_PATH);
+        rename("temp.txt", DATABASE_FILE_PATH);
     } else {
         printf("Produto não encontrado.\n");
         remove("temp.txt");
     }
 }
 
-void MNU_ShowStock() {
+void MENU_ShowStock() {
     printf("███████╗███████╗████████╗ ██████╗  ██████╗ ██╗   ██╗███████╗ \n");
     printf("██╔════╝██╔════╝╚══██╔══╝██╔═══██╗██╔═══██╗██║   ██║██╔════╝\n");
     printf("█████╗  ███████╗   ██║   ██║   ██║██║   ██║██║   ██║█████╗  \n");
@@ -222,33 +216,29 @@ void MNU_ShowStock() {
     printf("███████╗███████║   ██║   ╚██████╔╝╚██████╔╝╚██████╔╝███████╗\n");
     printf("╚══════╝╚══════╝   ╚═╝    ╚═════╝  ╚══▀▀═╝  ╚═════╝ ╚══════╝\n");
 
-    printf("ID\tNome do Produto\tPreco\tQuantidade\n");
+    printf("============================================================\n");
 
-    printf("===============================================\n");
-
-    FILE* file = fopen("database.txt", "r");
+    FILE* file = fopen(DATABASE_FILE_PATH, "rb"); 
 
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
 
-    char line[100];
+    Product product;
 
-    while (fgets(line, sizeof(line), file)) {
-        int prod_id;
-        char prod_name[MAX_PROD_NAME_LENGTH];
-        float preco;
-        int quantidade;
+    printf("Produtos em estoque:\n");
+    printf("%-25s %-13s %-13s %-9s\n", "Nome", "Id", "Quantidade", "Preço");
+    printf("------------------------------------------------------------\n");
 
-        sscanf(line, "%d,%[^,],%f,%d", &prod_id, prod_name, &preco, &quantidade);
-        printf("%d\t%s\t\t%.2f\t%d\n", prod_id, prod_name, preco, quantidade);
+    while (fread(&product, sizeof(Product), 1, file) == 1) {
+        printf("%-25s %-13d %-13d $%-8.2f\n", product.name, product.id, product.amount, product.price);
     }
 
-    fclose(file); 
+    fclose(file);
 }
 
-void MNU_ShowBalance() {
+void MENU_ShowBalance() {
     printf("▄▄███▄▄·    ██╗   ██╗███████╗███╗   ██╗██████╗  █████╗ ███████╗    ▄▄███▄▄· \n");
     printf("██╔════╝    ██║   ██║██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔════╝    ██╔════╝\n");
     printf("███████╗    ██║   ██║█████╗  ██╔██╗ ██║██║  ██║███████║███████╗    ███████╗\n");
@@ -276,7 +266,7 @@ void MNU_ShowBalance() {
     printf("Total de vendas realizadas em R$: %.2f\n", total_vendas);
 }
 
-void MNU_DeleteProduct() {
+void MENU_DeleteProduct() {
     printf("██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗███████╗██████╗     ██████╗ ██████╗  ██████╗ ██████╗ ██╗   ██╗████████╗ ██████╗\n");
     printf("██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██╔════╝██╔══██╗    ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗\n");
     printf("██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║█████╗  ██████╔╝    ██████╔╝██████╔╝██║   ██║██║  ██║██║   ██║   ██║   ██║   ██║\n");
@@ -290,7 +280,7 @@ void MNU_DeleteProduct() {
 
     scanf("%d", &id);
 
-    FILE* file = fopen("database.txt", "r+");
+    FILE* file = fopen(DATABASE_FILE_PATH, "r+");
     
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
@@ -327,8 +317,8 @@ void MNU_DeleteProduct() {
     fclose(tempFile);
 
     if (found) {
-        remove("database.txt");
-        rename("temp.txt", "database.txt");
+        remove(DATABASE_FILE_PATH);
+        rename("temp.txt", DATABASE_FILE_PATH);
         printf("Produto removido com sucesso!\n");
     } else {
         remove("temp.txt");
