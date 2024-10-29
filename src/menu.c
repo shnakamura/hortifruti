@@ -29,7 +29,7 @@ void MNU_ShowMenu() {
         printf("4. Demonstrativo de Vendas \n"); 
         printf("5. Remova um produto\n");
         printf("6. Sair do Programa\n"); 
-        printf("Escolha uma opção e pressionde enter: ");
+        printf("Escolha uma opção e pressione enter: ");
 
         if (scanf("%d", &choice) != 1){
             printf("Entrada invalida. Por favor, insira um número.\n");
