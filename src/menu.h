@@ -2,33 +2,50 @@
 #define MENU_H
 
 /**
- * Exibe menu principal.
+ * @brief Exibe o menu principal do sistema de gerenciamento.
+ * 
+ * Mostra as opções disponíveis ao usuário, como adicionar um produto, vender um produto, exibir o estoque
+ * de produtos, deletar um produto do e visualizar o saldo acumulado no sistema de gerenciamento.
  */
 void MNU_ShowMenu();
 
 /**
- * Adiciona um produto ao estoque.
+ * @brief Adiciona um novo produto ao estoque.
+ * 
+ * Solicita ao usuário as informações necessárias para adicionar um novo produto ao estoque, sendo seu nome,
+ * quantidade e preço, e o armazena no estoque.
  */
 void MNU_AddProduct(); 
 
 /**
- * Vende um produto do estoque.
+ * @brief Realiza a venda de um produto do estoque.
+ * 
+ * Solicita ao usuário as informações necessárias para vender um produto do estoque, sendo seu nome e
+ * quantidade. A quantidade do produto é decrementada conforme a venda é realizada.
  */
 void MNU_SellProduct(); 
 
 /**
- * Exibe o estoque de produtos.
+ * @brief Exibe a lista de produtos no estoque.
+ * 
+ * Apresenta todos os produtos atualmente disponíveis no estoque, incluindo informações como o nome, quantidade
+ * e preço de cada item.
  */
 void MNU_ShowStock(); 
 
 /**
- * Deleta um produto do estoque.
+ * @brief Remove um produto do estoque.
+ * 
+ * Solicita ao usuário as informações necessárias para remover um produto do estoque, sendo seu identificador
+ * numérico.
  */
 void MNU_DeleteProduct();
 
 /**
- * Exibe as vendas do estoque.
+ * @brief Exibe o saldo acumulado no sistema de gerenciamento.
+ * 
+ * Apresenta o valor total obtido com as vendas realizadas.
  */
-void MNU_ShowSales(); 
+void MNU_ShowBalance(); 
 
 #endif

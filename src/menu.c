@@ -54,7 +54,7 @@ void MNU_ShowMenu() {
                 getch();
                 break;
             case 4:
-                MNU_ShowSales();
+                MNU_ShowBalance();
                 getch();
                 break;
             case 5:
@@ -248,7 +248,7 @@ void MNU_ShowStock() {
     fclose(file); 
 }
 
-void MNU_ShowSales() {
+void MNU_ShowBalance() {
     printf("▄▄███▄▄·    ██╗   ██╗███████╗███╗   ██╗██████╗  █████╗ ███████╗    ▄▄███▄▄· \n");
     printf("██╔════╝    ██║   ██║██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔════╝    ██╔════╝\n");
     printf("███████╗    ██║   ██║█████╗  ██╔██╗ ██║██║  ██║███████║███████╗    ███████╗\n");
