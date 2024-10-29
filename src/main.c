@@ -1,31 +1,23 @@
-#include "main.h"
-
-#include <stdio.h>
-#include <locale.h>
+#include <stdlib.h>
 #include <windows.h>
 
-#include "login.h"
-#include "menu.h"
-#include "splash.h"
 #include "database.h"
+#include "menu.h"
 
-int main(void) {
+int main(void) {    
     SetConsoleOutputCP(CP_UTF8);
-    setlocale(LC_ALL, "Portuguese_Brasil.1252");
 
-    MAIN_Initialize();
+    DATABASE_CreateFile();
+
+    char username[USER_MAX_USERNAME_LENGTH];
+    char password[USER_MAX_PASSWORD_LENGTH];
+
+    strncpy(username, "admin", USER_MAX_USERNAME_LENGTH);
+    strncpy(password, "admin", USER_MAX_PASSWORD_LENGTH);
+
+    DATABASE_WriteUser(username, password, true);
+
+    MENU_Show();
 
     return EXIT_SUCCESS;
-}
-
-void MAIN_Initialize() {
-    SPLASH_ShowSplashScreen();
-    LOGIN_ShowPanel();
-    MENU_ShowMenu();
-    DATABASE_CreateFile();
-}
-
-void MAIN_Exit() {
-    printf("%s", "Saindo do programa...");
-    exit(EXIT_SUCCESS);
 }
