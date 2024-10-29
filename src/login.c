@@ -5,10 +5,7 @@
 #include <conio.h>
 #include <string.h>
 
-#define MAX_USERNAME_LENGTH 20 
-#define MAX_PASSWORD_LENGTH 20
-
-int LOGIN_AuthenticateUser(char* username, char* password) {
+int Login_AuthenticateUser(char* username, char* password) {
     if (strcmp(username, "admin") == 0 && strcmp(password, "admin") == 0) {
         return 1;
     }
@@ -60,7 +57,7 @@ void LOGIN_ShowPanel() {
             }
         }
         
-        if (LOGIN_AuthenticateUser(username, password)) {
+        if (Login_AuthenticateUser(username, password)) {
             printf("Login realizado com sucesso!\n\n");
             system("cls"); 
             return;

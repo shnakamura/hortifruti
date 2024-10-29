@@ -11,13 +11,19 @@
 int main(void) {
     SetConsoleOutputCP(CP_UTF8);
     setlocale(LC_ALL, "Portuguese_Brasil.1252");
-    SPL_ShowSplashScreen();
+
+    MAIN_Initialize();
+
+    return EXIT_SUCCESS;
+}
+
+void MAIN_Initialize() {
+    SPLASH_ShowSplashScreen();
     LOGIN_ShowPanel();
     MNU_ShowMenu();
-    return 0;
 }
 
 void MAIN_Exit() {
-    printf("%s", "Saindo...");
-    exit(1);
+    printf("%s", "Saindo do programa...");
+    exit(EXIT_SUCCESS);
 }

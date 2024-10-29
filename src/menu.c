@@ -94,7 +94,7 @@ void MNU_AddProduct() {
     FILE* file = fopen("database.txt", "r");
 
     if (file == NULL) {
-        DB_CreateFile(); 
+        DATABASE_CreateFile(); 
 
         file = fopen("database.txt", "r");
 

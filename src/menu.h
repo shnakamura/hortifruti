@@ -28,7 +28,7 @@ void MNU_SellProduct();
 /**
  * @brief Exibe a lista de produtos no estoque.
  * 
- * Apresenta todos os produtos atualmente disponíveis no estoque, incluindo informações como o nome, quantidade
+ * Mostra todos os produtos atualmente disponíveis no estoque, incluindo informações como o nome, quantidade
  * e preço de cada item.
  */
 void MNU_ShowStock(); 
@@ -44,7 +44,7 @@ void MNU_DeleteProduct();
 /**
  * @brief Exibe o saldo acumulado no sistema de gerenciamento.
  * 
- * Apresenta o valor total obtido com as vendas realizadas.
+ * Mostra o valor total obtido com as vendas realizadas.
  */
 void MNU_ShowBalance(); 
 
