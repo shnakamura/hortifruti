@@ -14,6 +14,12 @@
 #define MAX_PASSWORD_LENGTH 20
 
 /**
+ * @def MAX_PASSWORD_ATTEMPTS
+ * @brief A quantidade máxima de vezes em que o usuário pode falhar ao tentar realizar um login no sistema.
+ */
+#define MAX_PASSWORD_ATTEMPTS 3
+
+/**
  * @brief Tenta autenticar o usuário com as credenciais fornecidas.
  *
  * Solicita ao usuário as informações necessárias para realizar um login no sistema de gerenciamento

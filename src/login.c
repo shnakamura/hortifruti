@@ -5,7 +5,7 @@
 #include <conio.h>
 #include <string.h>
 
-int Login_AuthenticateUser(char* username, char* password) {
+int LGN_AuthenticateUser(char* username, char* password) {
     if (strcmp(username, "admin") == 0 && strcmp(password, "admin") == 0) {
         return 1;
     }
@@ -18,7 +18,6 @@ void LOGIN_ShowPanel() {
     char password[MAX_PASSWORD_LENGTH];
 
     int attempts = 0; 
-    int maxAttempts = 3; 
 
     printf("██╗      ██████╗  ██████╗ ██╗███╗   ██╗ \n");
     printf("██║     ██╔═══██╗██╔════╝ ██║████╗  ██║ \n");
@@ -27,7 +26,7 @@ void LOGIN_ShowPanel() {
     printf("███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║\n");
     printf("╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝\n");
 
-    while (attempts < maxAttempts) {
+    while (attempts < MAX_PASSWORD_ATTEMPTS) {
         printf("Nome de usuário: "); 
         fgets(username, sizeof(username), stdin);
 
@@ -57,7 +56,7 @@ void LOGIN_ShowPanel() {
             }
         }
         
-        if (Login_AuthenticateUser(username, password)) {
+        if (LGN_AuthenticateUser(username, password)) {
             printf("Login realizado com sucesso!\n\n");
             system("cls"); 
             return;
