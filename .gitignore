@@ -51,10 +51,5 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# Editor
-.vscode/
-.vs/
-.idea/
-
 # Compilation
 bin/

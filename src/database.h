@@ -2,16 +2,19 @@
 #define DATABASE_H
 
 #define DATABASE_FILE_PATH "users.bin"
+#define DATABASE_TEMPORARY_FILE_PATH "users.temp.bin"
 
 #include "user.h"
 
 #include <stdio.h>
 #include <stdbool.h>
 
-void DATABASE_CreateFile();
+int DATABASE_CreateFile();
 
-void DATABASE_WriteUser(char username[USER_MAX_USERNAME_LENGTH], char password[USER_MAX_PASSWORD_LENGTH], bool admin);
+int DATABASE_WriteUser(char username[USER_MAX_USERNAME_LENGTH], char password[USER_MAX_PASSWORD_LENGTH], int admin);
 
-void DATABASE_RemoveUser(int id);
+int DATABASE_RemoveUser(int id);
+
+User* DATABASE_GetUser(int id);
 
 #endif

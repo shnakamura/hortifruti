@@ -4,4 +4,4 @@ if not exist ".\bin" (
     mkdir ".\bin"
 )
 
-gcc -I .\include -O2 .\src\main.c .\src\database.c .\src\menu.c -o .\bin\program.exe
+gcc -I .\include .\src\main.c .\src\database.c .\src\menu.c .\src\splash.c .\src\auth.c -g -Wall -O2

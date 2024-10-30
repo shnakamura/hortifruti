@@ -63,16 +63,19 @@ void MENU_AddUser() {
     char username[USER_MAX_USERNAME_LENGTH];
 
     printf("Digite o nome do novo usuário:");
-    scanf("%s", &username);
+    scanf("%s", username);
 
     char password[USER_MAX_PASSWORD_LENGTH];
 
     printf("Digite a senha do novo usuário:");
-    scanf("%s", &password);
+    scanf("%s", password);
 
-    DATABASE_WriteUser(username, password, false);
-
-    printf("Novo usuário registrado com sucesso!");
+    if (DATABASE_WriteUser(username, password, false) == EXIT_SUCCESS) {
+        printf("Novo usuário registrado com sucesso!");
+    }
+    else {
+        printf("Erro ao criar novo usuário.");
+    }
 }
 
 void MENU_RemoveUser() {
@@ -81,9 +84,12 @@ void MENU_RemoveUser() {
     printf("Digite o id do usuário para remover:");
     scanf("%d", &id);
 
-    DATABASE_RemoveUser(id);
-
-    printf("Usuário removido com sucesso!");
+    if (DATABASE_RemoveUser(id) == EXIT_SUCCESS) {
+        printf("Usuário removido com sucesso!");
+    }
+    else {
+        printf("Erro ao remover usuário.");
+    }
 }
 
 void MENU_ListUsers() {

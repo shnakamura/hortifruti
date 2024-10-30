@@ -2,10 +2,15 @@
 #include <windows.h>
 
 #include "database.h"
+#include "splash.h"
+#include "auth.h"
 #include "menu.h"
 
 int main(void) {    
     SetConsoleOutputCP(CP_UTF8);
+
+    SPLASH_ShowSplashScreen();
+    AUTH_ShowPanel();
 
     DATABASE_CreateFile();
 
