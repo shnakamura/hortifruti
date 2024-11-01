@@ -76,12 +76,15 @@ void AUTH_ShowPanel() {
                 password[i] = '\0'; 
                 printf("\n");
                 break; 
-            } else if (ch == 8) {
+            } 
+            
+            if (ch == 8) {
                 if (i > 0) { 
                     i--;
                     printf("\b \b");
                 }
-            } else if (i < PASSWORD_MAX_LENGTH - 1) {
+            } 
+            else if (i < PASSWORD_MAX_LENGTH - 1) {
                 password[i] = ch; 
                 printf("*"); 
                 i++;
