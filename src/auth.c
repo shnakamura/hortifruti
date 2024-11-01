@@ -7,12 +7,16 @@
 #include <windows.h>
 
 #include "database.h"
+#include "settings.h"
+
+User* s_AuthenticatedUser;
 
 int AUTH_AuthenticateUser(char* username, char* password) {
     FILE* file = fopen(DATABASE_FILE_PATH, "rb+");
 
     if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
+        printf("Erro ao abrir a database de usuários.\n");
+        Sleep(RESPONSE_DELAY_TIME_IN_MILLISECONDS);
         exit(EXIT_FAILURE);
     }
 
@@ -20,19 +24,25 @@ int AUTH_AuthenticateUser(char* username, char* password) {
 
     int count = ftell(file) / sizeof(User);
 
+    fseek(file, 0, SEEK_SET); 
+
     for (int i = 0; i < count; i++) {
-        User* temp = DATABASE_GetUser(i);
+        User* temp = DATABASE_GetUser(i); 
 
-        if (temp != NULL && strcmp(temp->name, username) == EXIT_SUCCESS && strcmp(temp->password, password) == EXIT_SUCCESS) {
-            free(temp); 
+        if (temp != NULL) {
+            if (strcmp(temp->name, username) == 0 && strcmp(temp->password, password) == 0) {
+                s_AuthenticatedUser = temp;
+                
+                fclose(file);
 
-            admin = temp->admin;
-
-            return EXIT_SUCCESS;
+                return EXIT_SUCCESS;
+            }
         }
 
         free(temp); 
     }
+
+    fclose(file); 
 
     return EXIT_FAILURE;
 }
@@ -69,6 +79,6 @@ void AUTH_ShowPanel() {
     }
 
     printf("Número máximo de tentativas de login alcançado. O programa está sendo fechado.\n");
-    Sleep(3000);
+    Sleep(SHUTDOWN_COOLDOWN_IN_MILLISECONDS);
     exit(EXIT_FAILURE);
 }

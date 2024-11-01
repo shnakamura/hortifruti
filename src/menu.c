@@ -3,12 +3,17 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <string.h>
+#include <windows.h>
 
+#include "auth.h"
 #include "user.h"
+#include "settings.h"
 #include "database.h"
 
 void MENU_Show() {
     int choice;
+
+    int exitIndex = s_AuthenticatedUser->admin ? 9 : 6;
 
     do { 
         printf("███╗   ███╗███████╗███╗   ██╗██╗   ██╗ \n");
@@ -18,10 +23,20 @@ void MENU_Show() {
         printf("██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝ \n");
         printf("╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝  \n");
 
-        printf("1. Adicione um usuário\n"); 
-        printf("2. Remova um usuário\n"); 
-        printf("3. Listar usuários\n"); 
-        printf("4. Sair do Programa\n");
+        printf("1. Adicione um produto\n"); 
+        printf("2. Venda de produto \n"); 
+        printf("3. Demonstrativo de Estoque \n"); 
+        printf("4. Demonstrativo de Vendas \n"); 
+        printf("5. Remova um produto\n");
+
+        if (s_AuthenticatedUser && s_AuthenticatedUser->admin == true) {
+            printf("6. Adicione um usuário\n"); 
+            printf("7. Remova um usuário\n"); 
+            printf("8. Listar usuários\n"); 
+        }
+
+        printf("%d. Sair do programa\n", exitIndex);
+
         printf("Escolha uma opção e pressione enter: ");
 
         if (scanf("%d", &choice) != 1){
@@ -35,31 +50,52 @@ void MENU_Show() {
         system("cls"); 
 
         switch (choice) {
-            case 1:
-                MENU_AddUser();
+             case 1:
                 break;
             case 2:
-                MENU_RemoveUser();
-                getch();
                 break;
             case 3:
-                MENU_ListUsers();
                 getch();
                 break;
             case 4:
-                exit(EXIT_SUCCESS);
+                getch();
+                break;
+            case 5:
+                break;
+            case 6:
+                MENU_AddUser();
+                break;
+            case 7:
+                MENU_RemoveUser();
+                getch();
+                break;
+            case 8:
+                MENU_ListUsers();
+                getch();
                 break;
             default:
-                printf("Tente novamente, a opção escolhida é invalida.\n"); 
+                if (choice != exitIndex) {
+                    printf("Tente novamente, a opção escolhida é invalida.\n"); 
+                }
                 break;
+        }
+
+        if (choice == exitIndex) {
+            printf("Saindo do programa...");
+            Sleep(SHUTDOWN_COOLDOWN_IN_MILLISECONDS);
+            exit(EXIT_SUCCESS);
         }
 
         printf("\n");
         system("cls");
-    } while (choice != 4);
+    } while (choice != exitIndex);
 }
 
 void MENU_AddUser() {
+    if (!s_AuthenticatedUser || !s_AuthenticatedUser->admin) {
+        return;
+    }
+
     char username[USER_MAX_USERNAME_LENGTH];
 
     printf("Digite o nome do novo usuário:");
@@ -79,6 +115,10 @@ void MENU_AddUser() {
 }
 
 void MENU_RemoveUser() {
+    if (!s_AuthenticatedUser || !s_AuthenticatedUser->admin) {
+        return;
+    }
+
     int id = 0;
 
     printf("Digite o id do usuário para remover:");
@@ -88,17 +128,21 @@ void MENU_RemoveUser() {
         printf("Usuário removido com sucesso!");
     }
     else {
-        printf("Erro ao remover usuário.");
+        printf("Erro ao remover o usuário especificado.");
     }
 }
 
 void MENU_ListUsers() {
+    if (!s_AuthenticatedUser || !s_AuthenticatedUser->admin) {
+        return;
+    }
+
     printf("=============================================================\n");
 
     FILE* file = fopen(DATABASE_FILE_PATH, "rb"); 
 
     if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
+        printf("Erro ao abrir a database de usuários.\n");
         return;
     }
 

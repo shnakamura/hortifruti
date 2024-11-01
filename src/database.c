@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
 
 #include "user.h"
 
@@ -10,7 +11,6 @@ int DATABASE_CreateFile() {
     FILE* file = fopen(DATABASE_FILE_PATH, "a");
 
     if (file == NULL) {
-        printf("Erro ao criar o arquivo.\n");
         return EXIT_FAILURE;
     }
 
@@ -20,10 +20,9 @@ int DATABASE_CreateFile() {
 }
 
 int DATABASE_WriteUser(char username[USER_MAX_USERNAME_LENGTH], char password[USER_MAX_PASSWORD_LENGTH], int admin) {
-    FILE* file = fopen(DATABASE_FILE_PATH, "rb+");
+    FILE* file = fopen(DATABASE_FILE_PATH, "ab+");
 
     if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
         return EXIT_FAILURE;
     }
 
@@ -31,20 +30,30 @@ int DATABASE_WriteUser(char username[USER_MAX_USERNAME_LENGTH], char password[US
 
     int count = ftell(file) / sizeof(User);
 
-    for (int i = 0; i < count; i++) {
-        User* temp = DATABASE_GetUser(i);
+    fseek(file, 0, SEEK_SET); 
 
-        if (temp->name == username) {
-            return EXIT_FAILURE;
+    for (int i = 0; i < count; i++) {
+        User* temp = DATABASE_GetUser(i); 
+
+        if (temp != NULL) {
+            if (strcmp(temp->name, username) == 0) {
+                fclose(file);
+                return EXIT_FAILURE;
+            }
         }
+
+        free(temp); 
     }
-    
+
     User user;
 
     strncpy(user.name, username, USER_MAX_USERNAME_LENGTH);
     strncpy(user.password, password, USER_MAX_PASSWORD_LENGTH);
 
     user.admin = admin;
+
+    fseek(file, 0, SEEK_END);
+
     user.id = ftell(file) / sizeof(User);
 
     fwrite(&user, sizeof(User), 1, file);
@@ -57,14 +66,12 @@ int DATABASE_RemoveUser(int id) {
     FILE* file = fopen(DATABASE_FILE_PATH, "rb+");
 
     if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
         return EXIT_FAILURE;
     }
 
     FILE* temp = fopen(DATABASE_TEMPORARY_FILE_PATH, "wb");
 
     if (temp == NULL) {
-        printf("Erro ao criar arquivo temporário.\n");
         fclose(file);
         return EXIT_SUCCESS;
     }
@@ -90,14 +97,12 @@ User* DATABASE_GetUser(int id) {
     FILE* file = fopen(DATABASE_FILE_PATH, "rb+");
 
     if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
         exit(EXIT_FAILURE);
     }
 
     User* user = (User*)malloc(sizeof(User));
 
     if (user == NULL) {
-        printf("Erro ao alocar memória para o usuário.\n");
         fclose(file);
         exit(EXIT_FAILURE);
     }
@@ -105,7 +110,6 @@ User* DATABASE_GetUser(int id) {
     fseek(file, sizeof(User) * id, SEEK_SET);
 
     if (fread(user, sizeof(User), 1, file) != 1) {
-        printf("Erro ao ler o usuário do arquivo.\n");
         free(user); 
         fclose(file);
         return NULL;

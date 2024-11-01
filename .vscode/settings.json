@@ -11,6 +11,8 @@
         "user.h": "c",
         "stdbool.h": "c",
         "auth.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "cstdlib": "c",
+        "settings.h": "c"
     }
 }

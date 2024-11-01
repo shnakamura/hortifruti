@@ -5,12 +5,14 @@
 #include "splash.h"
 #include "auth.h"
 #include "menu.h"
+#include "settings.h"
 
 int main(void) {    
     SetConsoleOutputCP(CP_UTF8);
 
+#if !DEBUG
     SPLASH_ShowSplashScreen();
-    AUTH_ShowPanel();
+#endif
 
     DATABASE_CreateFile();
 
@@ -21,6 +23,8 @@ int main(void) {
     strncpy(password, "admin", USER_MAX_PASSWORD_LENGTH);
 
     DATABASE_WriteUser(username, password, true);
+
+    AUTH_ShowPanel();
 
     MENU_Show();
 
