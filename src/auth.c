@@ -65,7 +65,28 @@ void AUTH_ShowPanel() {
         scanf("%s", username);
 
         printf("Senha de usuário:"); 
-        scanf("%s", password);
+
+        int i = 0;
+        char ch;
+
+        while (1) {
+            ch = getch(); 
+
+            if (ch == '\r') { 
+                password[i] = '\0'; 
+                printf("\n");
+                break; 
+            } else if (ch == 8) {
+                if (i > 0) { 
+                    i--;
+                    printf("\b \b");
+                }
+            } else if (i < PASSWORD_MAX_LENGTH - 1) {
+                password[i] = ch; 
+                printf("*"); 
+                i++;
+            }
+        }
         
         if (AUTH_AuthenticateUser(username, password) == EXIT_SUCCESS) {
             printf("Login realizado com sucesso!\n\n");
